@@ -64,6 +64,13 @@ class TrackScraper:
       self.data["remixers"].append(p)
 
 
+  def get_genres(self):
+    # Genre 
+    self.data["genres"] = []
+    for p in self.bp_json["genres"]:
+      self.data["genres"].append(p)
+
+
   def get_bpm(self):
     # BPM
     self.data["bpm"] = self.bp_json["bpm"]
@@ -149,6 +156,7 @@ class TrackScraper:
     self.get_mix()
     self.get_artists()
     self.get_remixers()
+    self.get_genres()
     self.get_bpm()
     self.get_key()
     self.get_length()
