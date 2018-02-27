@@ -1,4 +1,4 @@
-import os, time
+import os, sys, time
 
 from modules import TrackScraper
 
@@ -38,7 +38,18 @@ class BeatportScraper:
       idlist += ts.recommendlist #オススメ曲IDをリストに追加
       del ts
 
+      if jsonfile == True:
+        ts.writeJSON(path)
+
       if i < loop-1:
         time.sleep(1)
 
     return None
+
+
+if __name__ == "__main__":
+
+  url = sys.argv[1]
+
+  bs = BeatportScraper()
+  bs.run(url, loop=1, jsonfile=True)
