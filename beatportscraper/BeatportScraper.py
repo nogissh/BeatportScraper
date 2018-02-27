@@ -100,7 +100,7 @@ class BeatportScraper:
   def get_url(self):
     # Track URL of Beatport
     self.data["url"] = \
-      "https://www.beatport.com/track/{}/{}".format(self.bp_json["slug"], self.data["id"])
+      "https://www.beatport.com/track/{}/{}".format(self.bp_json["slug"], self.data["beatport_id"])
 
 
   def get_artwork(self):
@@ -126,6 +126,7 @@ class BeatportScraper:
   def run(self):
     # Complete data all you need
     self.find_json()
+    self.get_id()
     self.get_title()
     self.get_mix()
     self.get_artists()
@@ -135,5 +136,6 @@ class BeatportScraper:
     self.get_length()
     self.get_label()
     self.get_date()
+    self.get_url()
     self.get_artwork()
     self.get_recommendation()
