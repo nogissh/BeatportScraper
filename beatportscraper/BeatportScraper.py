@@ -118,3 +118,4 @@ class BeatportScraper:
     self.get_label()
     self.get_date()
     self.get_artwork()
+    self.get_recommendation()
