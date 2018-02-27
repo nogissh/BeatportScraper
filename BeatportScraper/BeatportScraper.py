@@ -7,7 +7,7 @@ class BeatportScraper:
 
   def __init__(self):
     try:
-      os.mkdir("json")
+      os.mkdir("data")
     except FileExistsError:
       pass
 
@@ -36,10 +36,12 @@ class BeatportScraper:
       ts = TrackScraper(idlist[i])
       ts.run(jsonfile)
       idlist += ts.recommendlist #オススメ曲IDをリストに追加
-      del ts
 
+      # jsonfileがTrueならファイル吐き出し
       if jsonfile == True:
         ts.writeJSON(path)
+
+      del ts #デストラクト
 
       if i < loop-1:
         time.sleep(1)
