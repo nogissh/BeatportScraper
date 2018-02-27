@@ -92,6 +92,20 @@ class BeatportScraper:
     return None
 
 
+  def get_recommendation(self):
+    # Recommendation track list
+    t = self.soup.select("#data-objects")
+    t = t[0].string
+    t = t.split(";")
+    t = t[1]
+    t = t.replace("         window.Playables = ", "")
+    t = json.loads(t)
+    rec_id = []
+    for i in range(len(t['tracks'])):
+      rec_id.append(t['tracks'][i]['id'])
+    self.data['recommendation'] = rec_id
+
+
   def run(self):
     # Complete data all you need
     self.find_json()
