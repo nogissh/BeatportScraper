@@ -49,6 +49,13 @@ class BeatportScraper:
     return None
 
 
+  def get_remixers(self):
+    # Remixier
+    self.data["remixers"] = []
+    for p in self.bp_json["remixers"]:
+      self.data["remixers"].append(p["name"])
+
+
   def get_bpm(self):
     # BPM
     self.data["bpm"] = self.bp_json["bpm"]
@@ -112,6 +119,7 @@ class BeatportScraper:
     self.get_title()
     self.get_mix()
     self.get_artists()
+    self.get_remixers()
     self.get_bpm()
     self.get_key()
     self.get_length()
