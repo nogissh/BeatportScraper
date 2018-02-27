@@ -8,9 +8,7 @@ class TrackScraper:
 
   def __init__(self, url):
     # Ready for getting beatport data
-    self.data = {
-      "url": url,
-    } # For data
+    self.data = {} # For data
     ua = UserAgent()
     headers = {
       "User-Agent": str(ua.random),
@@ -30,8 +28,8 @@ class TrackScraper:
 
 
   def get_id(self):
-    # Beatport track id
-    self.data["id"] = self.bp_json["id"]
+    # Track id
+    self.data["beatport_id"] = self.bp_json["id"]
     return None
 
 
@@ -51,8 +49,15 @@ class TrackScraper:
     # Artists
     self.data["artists"] = []
     for p in self.bp_json["artists"]:
-      self.data["artists"].append(p["name"])
+      self.data["artists"].append(p)
     return None
+
+
+  def get_remixers(self):
+    # Remixier
+    self.data["remixers"] = []
+    for p in self.bp_json["remixers"]:
+      self.data["remixers"].append(p)
 
 
   def get_bpm(self):
@@ -92,6 +97,12 @@ class TrackScraper:
     return None
 
 
+  def get_url(self):
+    # Track URL of Beatport
+    self.data["url"] = \
+      "https://www.beatport.com/track/{}/{}".format(self.bp_json["slug"], self.data["beatport_id"])
+
+
   def get_artwork(self):
     # Track artwork
     self.data["artwork"] = self.bp_json["images"]["large"]["url"]
@@ -115,13 +126,16 @@ class TrackScraper:
   def run(self):
     # Complete data all you need
     self.find_json()
+    self.get_id()
     self.get_title()
     self.get_mix()
     self.get_artists()
+    self.get_remixers()
     self.get_bpm()
     self.get_key()
     self.get_length()
     self.get_label()
     self.get_date()
+    self.get_url()
     self.get_artwork()
     self.get_recommendation()
