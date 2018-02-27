@@ -123,6 +123,11 @@ class TrackScraper:
     self.data['recommendation'] = rec_id
 
 
+  def writeJSON(self):
+    with open("{}.json".format(self.data["beatport_id"]), "w") as f:
+      json.dump(self.data, f, indent=2, separators=(",", ":"))
+
+
   def run(self):
     # Complete data all you need
     self.find_json()
