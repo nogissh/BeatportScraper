@@ -8,9 +8,7 @@ class BeatportScraper:
 
   def __init__(self, url):
     # Ready for getting beatport data
-    self.data = {
-      "url": url,
-    } # For data
+    self.data = {} # For data
     ua = UserAgent()
     headers = {
       "User-Agent": str(ua.random),
@@ -26,6 +24,12 @@ class BeatportScraper:
     t = t[5].string
     t = t.replace("\n     window.ProductDetail = ", "")
     self.bp_json = json.loads(t)
+    return None
+
+
+  def get_id(self):
+    # Track id
+    self.data["beatport_id"] = self.bp_json["id"]
     return None
 
 
@@ -45,7 +49,7 @@ class BeatportScraper:
     # Artists
     self.data["artists"] = []
     for p in self.bp_json["artists"]:
-      self.data["artists"].append(p["name"])
+      self.data["artists"].append(p)
     return None
 
 
@@ -53,7 +57,7 @@ class BeatportScraper:
     # Remixier
     self.data["remixers"] = []
     for p in self.bp_json["remixers"]:
-      self.data["remixers"].append(p["name"])
+      self.data["remixers"].append(p)
 
 
   def get_bpm(self):
@@ -91,6 +95,12 @@ class BeatportScraper:
     # Release date
     self.data["date"] = self.bp_json["date"]["released"]
     return None
+
+
+  def get_url(self):
+    # Track URL of Beatport
+    self.data["url"] = \
+      "https://www.beatport.com/track/{}/{}".format(self.bp_json["slug"], self.data["id"])
 
 
   def get_artwork(self):
