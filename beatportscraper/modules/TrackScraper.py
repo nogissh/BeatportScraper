@@ -6,13 +6,17 @@ from fake_useragent import UserAgent
 
 class TrackScraper:
 
-  def __init__(self, url):
+  def __init__(self, bp_trackid):
     # Ready for getting beatport data
+
     self.data = {} # For data
+
     ua = UserAgent()
     headers = {
       "User-Agent": str(ua.random),
     }
+
+    url = "https://www.beatport.com/track/_/{}".format(bp_trackid)
     html = requests.get(url, headers)
     self.soup = BeautifulSoup(html.text, "lxml")
     return None
@@ -110,25 +114,34 @@ class TrackScraper:
 
 
   def get_recommendation(self):
+
+    def forError(soup, i):
+      try:
+        t = soup.select("#data-objects")
+        t = t[0].string
+        t = t.split(";")
+        t = t[i]
+        t = t.replace("         window.Playables = ", "")
+        return json.loads(t)
+      except json.decoder.JSONDecodeError:
+        if i > 20:
+          return None
+        return forError(soup, i+1)
+
     # Recommendation track list
-    t = self.soup.select("#data-objects")
-    t = t[0].string
-    t = t.split(";")
-    t = t[1]
-    t = t.replace("         window.Playables = ", "")
-    t = json.loads(t)
+    t = forError(self.soup, 1)
     rec_id = []
     for i in range(len(t['tracks'])):
       rec_id.append(t['tracks'][i]['id'])
-    self.data['recommendation'] = rec_id
+    self.recommendlist = rec_id
 
 
   def writeJSON(self):
-    with open("{}.json".format(self.data["beatport_id"]), "w") as f:
+    with open("json/{}.json".format(self.data["beatport_id"]), "w") as f:
       json.dump(self.data, f, indent=2, separators=(",", ":"))
 
 
-  def run(self):
+  def run(self, jsonfile=False):
     # Complete data all you need
     self.find_json()
     self.get_id()
@@ -144,3 +157,6 @@ class TrackScraper:
     self.get_url()
     self.get_artwork()
     self.get_recommendation()
+
+    if jsonfile == True:
+      self.writeJSON()
