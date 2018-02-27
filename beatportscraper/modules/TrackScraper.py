@@ -143,8 +143,8 @@ class TrackScraper:
     self.recommendlist = rec_id
 
 
-  def writeJSON(self):
-    with open("json/{}.json".format(self.data["beatport_id"]), "w") as f:
+  def writeJSON(self, filepath):
+    with open(filepath, "w") as f:
       json.dump(self.data, f, indent=2, separators=(",", ":"))
 
 
@@ -165,6 +165,3 @@ class TrackScraper:
     self.get_url()
     self.get_artwork()
     self.get_recommendation()
-
-    if jsonfile == True:
-      self.writeJSON()
