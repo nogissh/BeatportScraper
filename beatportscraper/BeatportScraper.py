@@ -8,7 +8,7 @@ class BeatportScraper:
 
   def __init__(self, url):
     # Ready for getting beatport data
-    self.content = {
+    self.data = {
       "url": url,
     } # For data
     ua = UserAgent()
@@ -31,27 +31,27 @@ class BeatportScraper:
 
   def get_title(self):
     # Track title
-    self.content["title"] = self.bp_json["title"]
+    self.data["title"] = self.bp_json["title"]
     return None
 
   
   def get_mix(self):
     # Track mix
-    self.content["mix"] = self.bp_json["mix"]
+    self.data["mix"] = self.bp_json["mix"]
     return None
 
 
   def get_artists(self):
     # Artists
-    self.content["artists"] = []
+    self.data["artists"] = []
     for p in self.bp_json["artists"]:
-      self.content["artists"].append(p["name"])
+      self.data["artists"].append(p["name"])
     return None
 
 
   def get_bpm(self):
     # BPM
-    self.content["bpm"] = self.bp_json["bpm"]
+    self.data["bpm"] = self.bp_json["bpm"]
     return None
 
 
@@ -62,7 +62,7 @@ class BeatportScraper:
       t = t.replace(b"\xe2\x99\xaf", b"#") # "#"
     elif b"\xe2\x99\xad" in t:
       t = t.replace(b"\xe2\x99\xad", b"b") # "b"
-    self.content["key"] = t.decode()
+    self.data["key"] = t.decode()
     return None
 
 
@@ -70,25 +70,25 @@ class BeatportScraper:
     # Track length
     t = self.bp_json["duration"]["milliseconds"]
     t = int(t / 1000)
-    self.content["length"] = t
+    self.data["length"] = t
     return None
 
   
   def get_label(self):
     # label
-    self.content["label"] = self.bp_json["label"]["name"]
+    self.data["label"] = self.bp_json["label"]["name"]
     return None
 
 
   def get_date(self):
     # Release date
-    self.content["date"] = self.bp_json["date"]["released"]
+    self.data["date"] = self.bp_json["date"]["released"]
     return None
 
 
   def get_artwork(self):
     # Track artwork
-    self.content["artwork"] = self.bp_json["images"]["large"]["url"]
+    self.data["artwork"] = self.bp_json["images"]["large"]["url"]
     return None
 
 
