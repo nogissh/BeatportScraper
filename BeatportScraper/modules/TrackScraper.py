@@ -39,7 +39,7 @@ class TrackScraper:
 
   def get_title(self):
     # Track title
-    self.data["title"] = self.bp_json["title"]
+    self.data["title"] = self.bp_json["name"]
     return None
 
   
