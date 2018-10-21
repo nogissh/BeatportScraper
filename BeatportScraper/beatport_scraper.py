@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 
-class SingleScraper:
+class BeatportScraper:
 
   def __init__(self):
     # Ready for getting beatport data
@@ -175,6 +175,6 @@ class SingleScraper:
 
 import sys
 if __name__ == '__main__':
-  ss = SingleScraper()
-  ss.run(sys.argv[1])
-  del ss
+  bs = BeatportScraper()
+  bs.run(sys.argv[1])
+  del bs
