@@ -1,26 +1,21 @@
-import requests, json
-
+import requests
+import json
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 
-class TrackScraper:
+class SingleScraper:
 
-  def __init__(self, bp_trackid):
+  def __init__(self):
     # Ready for getting beatport data
 
-    self.data = {} # For data
+    self.data = {}
 
     # Set User-Agent to `chrome`
     ua = UserAgent()
-    headers = {
+    self.headers = {
       "User-Agent": str(ua.chrome),
     }
-
-    url = "https://www.beatport.com/track/_/{}".format(bp_trackid)
-    html = requests.get(url, headers)
-    self.soup = BeautifulSoup(html.text, "lxml")
-    return None
   
 
   def find_json(self):
@@ -149,7 +144,12 @@ class TrackScraper:
       json.dump(self.data, f, indent=2, separators=(",", ":"))
 
 
-  def run(self, jsonfile=False):
+  def run(self, url, jsonfile=False):
+
+    # Get `soup` object
+    html = requests.get(url, self.headers)
+    self.soup = BeautifulSoup(html.text, "lxml")
+
     # Complete data all you need
     self.find_json()
     self.get_id()
@@ -165,4 +165,12 @@ class TrackScraper:
     self.get_date()
     self.get_url()
     self.get_artwork()
-    self.get_recommendation()
+    # self.get_recommendation()
+    self.writeJSON(f'./data/{self.data["beatport_id"]}.json')
+
+
+import sys
+if __name__ == '__main__':
+  ss = SingleScraper()
+  ss.run(sys.argv[1])
+  del ss
