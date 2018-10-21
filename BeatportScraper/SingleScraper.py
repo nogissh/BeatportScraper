@@ -16,6 +16,9 @@ class SingleScraper:
     self.headers = {
       "User-Agent": str(ua.chrome),
     }
+
+    # Save pass
+    self.savePass = './data/{}.json'
   
 
   def find_json(self):
@@ -139,7 +142,8 @@ class SingleScraper:
     self.recommendlist = rec_id
 
 
-  def writeJSON(self, filepath):
+  def writeJSON(self):
+    filepath = self.savePass.format(self.data['beatport_id'])
     with open(filepath, "w") as f:
       json.dump(self.data, f, indent=2, separators=(",", ":"))
 
@@ -165,8 +169,8 @@ class SingleScraper:
     self.get_date()
     self.get_url()
     self.get_artwork()
-    # self.get_recommendation()
-    self.writeJSON(f'./data/{self.data["beatport_id"]}.json')
+    self.get_recommendation()
+    self.writeJSON()
 
 
 import sys
