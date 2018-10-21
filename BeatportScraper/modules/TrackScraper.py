@@ -11,9 +11,10 @@ class TrackScraper:
 
     self.data = {} # For data
 
+    # Set User-Agent to `chrome`
     ua = UserAgent()
     headers = {
-      "User-Agent": str(ua.random),
+      "User-Agent": str(ua.chrome),
     }
 
     url = "https://www.beatport.com/track/_/{}".format(bp_trackid)
