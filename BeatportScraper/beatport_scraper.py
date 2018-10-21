@@ -97,7 +97,9 @@ class BeatportScraper:
   
   def get_label(self):
     # label
-    self.data["label"] = self.bp_json["label"]["name"]
+    self.data["label"] = {}
+    self.data['label']['id'] = self.bp_json['label']['id']
+    self.data['label']['name'] = self.bp_json["label"]["name"]
     return None
 
 
